@@ -102,7 +102,7 @@ export default function SignupPage() {
 
       {/* GOOGLE SIGNUP BUTTON */}
       <a
-        href="http://localhost:3000/auth/google"
+         href={`${process.env.NEXT_PUBLIC_API_URL}/auth/google`}
         className="block w-full text-center bg-red-600 hover:bg-red-700 p-3 rounded-xl font-semibold transition"
       >
         Continue with Google
