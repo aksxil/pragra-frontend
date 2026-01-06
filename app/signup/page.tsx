@@ -15,14 +15,20 @@ export default function SignupPage() {
   const router = useRouter();
 
   const signup = async () => {
+    // ✅ FRONTEND VALIDATION (VERY IMPORTANT)
+    if (!name.trim() || !email.trim() || !password.trim()) {
+      setError("All fields are required");
+      return;
+    }
+
     setLoading(true);
     setError("");
     setMessage("");
 
     try {
       await api.post("/auth/signup", {
-        name,
-        email,
+        name: name.trim(),
+        email: email.trim(),
         password,
       });
 
@@ -32,7 +38,7 @@ export default function SignupPage() {
 
       setTimeout(() => {
         router.push("/login");
-      }, 3000);
+      }, 2500);
     } catch (err: any) {
       setError(
         err?.response?.data?.message || "Something went wrong. Try again."
@@ -62,21 +68,25 @@ export default function SignupPage() {
 
       {/* FORM */}
       <input
-        className="w-full mb-4 p-3 rounded bg-zinc-800"
+        className="w-full mb-4 p-3 rounded bg-zinc-800 outline-none"
         placeholder="Full Name"
+        value={name}
         onChange={(e) => setName(e.target.value)}
       />
 
       <input
-        className="w-full mb-4 p-3 rounded bg-zinc-800"
+        type="email"
+        className="w-full mb-4 p-3 rounded bg-zinc-800 outline-none"
         placeholder="Email"
+        value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
 
       <input
         type="password"
-        className="w-full mb-4 p-3 rounded bg-zinc-800"
+        className="w-full mb-4 p-3 rounded bg-zinc-800 outline-none"
         placeholder="Password"
+        value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
 
@@ -100,9 +110,9 @@ export default function SignupPage() {
         <div className="flex-1 h-px bg-zinc-700" />
       </div>
 
-      {/* GOOGLE SIGNUP BUTTON */}
+      {/* GOOGLE SIGNUP */}
       <a
-         href={`${process.env.NEXT_PUBLIC_API_URL}/auth/google`}
+        href={`${process.env.NEXT_PUBLIC_API_URL}/auth/google`}
         className="block w-full text-center bg-red-600 hover:bg-red-700 p-3 rounded-xl font-semibold transition"
       >
         Continue with Google
